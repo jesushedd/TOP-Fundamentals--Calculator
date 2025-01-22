@@ -1,8 +1,11 @@
 let A=0;
 let B=0;
-//set buttons + -
+//buttons + -
 const sumButton = document.querySelector("#sum");
 const subButton = document.querySelector("#sub");
+//input for numbers
+const numsInput = document.querySelector("input");
+
 //add event listener for buttons
 const updatePressed = (e) => {
     const boton = e.target;
@@ -10,6 +13,24 @@ const updatePressed = (e) => {
 }
 sumButton.addEventListener("click", updatePressed);
 subButton.addEventListener("click", updatePressed);
+
+//add event listener to update A or B when input numbers    
+const flushNum = (e) => {
+    let inputNumber = Number(e.target.value);
+    if (isOperatorPressed()){
+        B = inputNumber;
+    } else {
+        A = inputNumber;
+    }
+
+    console.log("A : " + A);
+    console.log("B : " + B);
+};
+
+numsInput.addEventListener("keyup", flushNum)
+
+
+
 
 
 
@@ -22,4 +43,13 @@ if (acOP){
 }
 
 
+
+function isOperatorPressed (){
+    const operators =  document.querySelectorAll(".operator");
+    let res = Array.prototype.some.call(operators, (op) => {
+        return op.classList.contains("pressed");
+    });
+
+    return res;
+}
 
