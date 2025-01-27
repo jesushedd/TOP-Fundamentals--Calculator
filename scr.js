@@ -15,7 +15,7 @@ sumButton.addEventListener("click", pressButton);
 subButton.addEventListener("click", pressButton);
 
 //event listener to update A or B when input numbers    
-display.addEventListener("keyup", flushNum);
+display.addEventListener("keyup", flushNumber);
 
 //event listener for numeric keys
 numericKeys.addEventListener("click", pressNumber);
@@ -45,7 +45,7 @@ function pressButton (e){
 
 
 //
-function flushNum (e) {
+function flushNumber (e) {
     //get number from input field
     let inputNumber = Number(e.target.value);
     //check buttons
@@ -73,7 +73,7 @@ function isOperatorPressed (){
 
 function pressNumber(e) {
     const target = e.target;
-    console.log(target.tagName)
+    
     if (target.tagName != "BUTTON"){
         return;
     }
@@ -86,9 +86,21 @@ function pressNumber(e) {
         display.textContent += number;
         return;
     }
+    //clear display
+    display.textContent = "";
+    
+    display.textContent = target.value;
+
+
+    //remove operator pressing state
+    //remove press state from other buttons
+    const otherButtons = Array.from(document.querySelectorAll(".operator"));        
+    otherButtons.forEach( (b) => {
+            b.classList.remove("pressed");
+    });
 }
 
 function isDisplayFull(){
-    return display.textContent.length >=8;
+    return display.textContent.length >=MAX_DISPLAY_LENGHT;
 }
 
