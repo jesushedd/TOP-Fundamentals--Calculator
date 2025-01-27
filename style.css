@@ -1,3 +1,12 @@
+*{
+    box-sizing: border-box;
+}
 .pressed {
     background-color: papayawhip;
+}
+.display{
+    text-align: right;
+    width: 8ch;
+    height: 2rem;
+    background-color: gray;
 }
