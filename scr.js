@@ -6,9 +6,20 @@ const subButton = document.querySelector("#sub");
 //input for numbers
 const numsInput = document.querySelector("input");
 
+//add event listener for buttons
+sumButton.addEventListener("click", pressButton);
+subButton.addEventListener("click", pressButton);
+
+//event listener to update A or B when input numbers    
+numsInput.addEventListener("keyup", flushNum)
+
+
+
+
+
 //chage state of a button to pressed
 //unpress other buttons , of same type?
-const pressButton = (e) => {
+function pressButton (e){
     //add press state
     const boton = e.target;
     if(boton.classList.contains("pressed")){
@@ -22,14 +33,12 @@ const pressButton = (e) => {
             b.classList.remove("pressed");
     });
 }
-//add event listener for buttons
-sumButton.addEventListener("click", pressButton);
-subButton.addEventListener("click", pressButton);
+
 
 
 
 //
-const flushNum = (e) => {
+function flushNum (e) {
     //get number from input field
     let inputNumber = Number(e.target.value);
     //check buttons
@@ -42,8 +51,7 @@ const flushNum = (e) => {
     console.log("A : " + A);
     console.log("B : " + B);
 };
-//event listener to update A or B when input numbers    
-numsInput.addEventListener("keyup", flushNum)
+
 
 
 
