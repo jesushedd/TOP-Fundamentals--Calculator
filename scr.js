@@ -1,17 +1,24 @@
+const MAX_DISPLAY_LENGHT = 8;
 let A=0;
 let B=0;
 //buttons + -
 const sumButton = document.querySelector("#sum");
 const subButton = document.querySelector("#sub");
 //input for numbers
-const numsInput = document.querySelector("input");
+const display = document.querySelector(".display");
+//numbers keys
+const numericKeys = document.querySelector("#numerics");
+
 
 //add event listener for buttons
 sumButton.addEventListener("click", pressButton);
 subButton.addEventListener("click", pressButton);
 
 //event listener to update A or B when input numbers    
-numsInput.addEventListener("keyup", flushNum)
+display.addEventListener("keyup", flushNum);
+
+//event listener for numeric keys
+numericKeys.addEventListener("click", pressNumber);
 
 
 
@@ -62,5 +69,26 @@ function isOperatorPressed (){
     });
 
     return res;
+}
+
+function pressNumber(e) {
+    const target = e.target;
+    console.log(target.tagName)
+    if (target.tagName != "BUTTON"){
+        return;
+    }
+
+    if (isDisplayFull()) {
+        return;
+    }
+    const number = target.value;
+    if (!isOperatorPressed()){
+        display.textContent += number;
+        return;
+    }
+}
+
+function isDisplayFull(){
+    return display.textContent.length >=8;
 }
 
