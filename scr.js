@@ -16,6 +16,9 @@ const OPERANDS_QUEUE = {
     },
 
     operate: function (){
+        if (this.queue.length < 2){
+            return this.queue.pop();
+        }
         let a = this.queue.pop();
         let b = this.queue.pop();
         switch (currentOperator) {
@@ -42,6 +45,8 @@ const DISPLAY = document.querySelector(".display");
 //numbers keys
 const NUMERIC_KEYS = document.querySelector("#numerics");
 
+const ENTER_KEY = document.querySelector("#enter")
+
 
 //add event listener for buttons
 sumButton.addEventListener("click", pressButton);
@@ -52,6 +57,12 @@ DISPLAY.addEventListener("keyup", flushNumber);
 
 //event listener for numeric keys
 NUMERIC_KEYS.addEventListener("click", pressNumber);
+
+//event listener for enter key
+ENTER_KEY.addEventListener("click",() => {
+    OPERANDS_QUEUE.insert(getNumberFromDisplay());
+    operate();
+})
 
 
 
@@ -119,7 +130,6 @@ function pressNumber(e) {
     if (target.tagName != "BUTTON"){
         return;
     }
-
     if (isDisplayFull()) {
         return;
     }
@@ -128,10 +138,7 @@ function pressNumber(e) {
         DISPLAY.textContent += number;
         return;
     }
-    //clear display
-    DISPLAY.textContent = "";
-    
-    DISPLAY.textContent = target.value;
+    toDisplay(target.value)
 
 
     //remove operator pressing state
@@ -144,5 +151,18 @@ function pressNumber(e) {
 
 function isDisplayFull(){
     return DISPLAY.textContent.length >=MAX_DISPLAY_LENGHT;
+}
+
+function toDisplay(n){
+    DISPLAY.textContent = n;
+}
+
+function operate(){
+    let result = OPERANDS_QUEUE.operate();
+    toDisplay(result);
+}
+
+function getNumberFromDisplay(){
+    return Number(DISPLAY.textContent);
 }
 
