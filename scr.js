@@ -31,6 +31,10 @@ const OPERANDS_QUEUE = {
                 return a - b;
                 
             case "/":
+                if (b === 0){
+                    return "Error";
+                }
+
                 return a / b;
                         }
     }
@@ -40,6 +44,7 @@ const OPERANDS_QUEUE = {
 //buttons + -
 const sumButton = document.querySelector("#sum");
 const subButton = document.querySelector("#sub");
+const operatorButtons = document.querySelectorAll(".operator");
 //input for numbers
 const DISPLAY = document.querySelector(".display");
 //numbers keys
@@ -48,9 +53,10 @@ const NUMERIC_KEYS = document.querySelector("#numerics");
 const ENTER_KEY = document.querySelector("#enter")
 
 
-//add event listener for buttons
-sumButton.addEventListener("click", pressButton);
-subButton.addEventListener("click", pressButton);
+//add event listener for opreators buttons
+operatorButtons.forEach((b) => {
+    b.addEventListener("click", pressButton);
+})
 
 //event listener to update A or B when input numbers    
 DISPLAY.addEventListener("keyup", flushNumber);
@@ -126,9 +132,13 @@ function isOperatorPressed (){
 
 function pressNumber(e) {
     const target = e.target;
+    const currentDisplayed = Number(DISPLAY.textContent);
     
     if (target.tagName != "BUTTON"){
         return;
+    }
+    if(isNaN(currentDisplayed) | currentDisplayed === 0){
+        toDisplay("");
     }
     if (isDisplayFull()) {
         return;
@@ -138,7 +148,7 @@ function pressNumber(e) {
         DISPLAY.textContent += number;
         return;
     }
-    toDisplay(target.value)
+    toDisplay(number)
 
 
     //remove operator pressing state
