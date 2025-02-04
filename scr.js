@@ -60,7 +60,7 @@ operatorButtons.forEach((b) => {
 DISPLAY.addEventListener("keyup", flushNumber);
 
 //event listener for numeric keys
-NUMERIC_KEYS.addEventListener("click", pressNumber);
+NUMERIC_KEYS.addEventListener("click", numberHandler);
 
 //event listener for enter key
 ENTER_KEY.addEventListener("click",() => {
@@ -128,42 +128,6 @@ function isOperatorPressed (){
     return res;
 }
 
-function pressNumber(e) {
-    const target = e.target;
-    const currentDisplayed = Number(DISPLAY.textContent);
-    
-    if (target.tagName != "BUTTON"){
-        return;
-    }
-    if(isNaN(currentDisplayed) | currentDisplayed === 0){
-        toDisplay("");
-    }
-    if (isDisplayFull()) {
-        return;
-    }
-    const number = target.value;
-    if (!isOperatorPressed()){
-        DISPLAY.textContent += number;
-        return;
-    }
-    toDisplay(number)
-
-
-    //remove operator pressing state
-    //remove press state from other buttons
-    const otherButtons = Array.from(document.querySelectorAll(".operator"));        
-    otherButtons.forEach( (b) => {
-            b.classList.remove("pressed");
-    });
-}
-
-function isDisplayFull(){
-    return DISPLAY.textContent.length >=MAX_DISPLAY_LENGHT;
-}
-
-function toDisplay(n){
-    DISPLAY.textContent = n;
-}
 
 function operate(){
     let result = OPERANDS_QUEUE.operate();
@@ -172,5 +136,54 @@ function operate(){
 
 function getNumberFromDisplay(){
     return Number(DISPLAY.textContent);
+}
+
+
+
+
+function numberHandler(e) {
+    const target = e.target;
+    const currentDisplayed = Number(DISPLAY.textContent);
+    
+    if (target.tagName != "BUTTON"){
+        return;
+    }
+
+    if (isDisplayInvalid()){
+        clearDisplay()
+    }
+
+    
+
+    const numberToWrite = target.value;
+    if (isOperatorPressed()){
+        //un pressed operator
+        document.querySelector(".pressed").classList.remove("pressed");
+        
+        clearDisplay();
+
+        toDisplay(numberToWrite);
+    } else if (isDisplayFull()){
+        return;
+    } else{
+        DISPLAY.textContent += numberToWrite;
+    }
+
+}
+
+function isDisplayInvalid(){
+    return DISPLAY.textContent == 0 | isNaN (DISPLAY.textContent)  
+}
+
+function clearDisplay(){
+    DISPLAY.textContent = "";
+}
+
+function isDisplayFull(){
+    return DISPLAY.textContent.length >=MAX_DISPLAY_LENGHT;
+}
+
+function toDisplay(n){
+    DISPLAY.textContent = n;
 }
 
