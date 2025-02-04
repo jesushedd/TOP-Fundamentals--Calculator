@@ -1,6 +1,13 @@
 const MAX_DISPLAY_LENGHT = 8;
+//operator buttons
+const operatorButtons = document.querySelectorAll(".operator");
+//input for numbers
+const DISPLAY = document.querySelector(".display");
+//numbers keys 
+const NUMERIC_KEYS = document.querySelector("#numerics");
 
-let currentOperator = "";
+const ENTER_KEY = document.querySelector("#enter")
+//let currentOperator = "";
 
 //Ds for saving operands
 //Fixed size queue , max size 2
@@ -41,16 +48,7 @@ const OPERANDS_QUEUE = {
 }
 
 
-//buttons + -
-const sumButton = document.querySelector("#sum");
-const subButton = document.querySelector("#sub");
-const operatorButtons = document.querySelectorAll(".operator");
-//input for numbers
-const DISPLAY = document.querySelector(".display");
-//numbers keys
-const NUMERIC_KEYS = document.querySelector("#numerics");
 
-const ENTER_KEY = document.querySelector("#enter")
 
 
 //add event listener for opreators buttons
