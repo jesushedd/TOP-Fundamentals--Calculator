@@ -12,23 +12,23 @@ const ENTER_KEY = document.querySelector("#enter")
 //Ds for saving operands
 //Fixed size queue , max size 2
 //if already full, make operation the insert the result
-const OPERANDS_QUEUE = {
-    queue:[],
+const STACK = {
+    number_stack:[],
+    operator_stack:[],
     max_size:2,
-    insert: function  (n) {
-        if (this.queue.length >= this.max_size){
-            this.queue.unshift(this.operate());
-        }
-        this.queue.unshift(n);
+    push_number: function  (n) {
+        this.number_stack.push(n);
+    },
+
+    push_operator: function (o){
+        this.operator_stack.push(o);
     },
 
     operate: function (){
-        if (this.queue.length < 2){
-            return this.queue.pop();
-        }
-        let a = this.queue.pop();
-        let b = this.queue.pop();
-        switch (currentOperator) {
+        
+        let b = this.number_stack.pop();
+        let a = this.number_stack.pop();
+        switch (this.operator_stack.pop()) {
             case "+":
                 return a + b;
             case "*":
@@ -39,7 +39,7 @@ const OPERANDS_QUEUE = {
                 
             case "/":
                 if (b === 0){
-                    return "Error";
+                    return "ZeroErr";
                 }
 
                 return a / b;
@@ -53,7 +53,7 @@ const OPERANDS_QUEUE = {
 
 //add event listener for opreators buttons
 operatorButtons.forEach((b) => {
-    b.addEventListener("click", pressButton);
+    b.addEventListener("click", operatorHandler);
 })
 
 //event listener to update A or B when input numbers    
@@ -63,58 +63,7 @@ DISPLAY.addEventListener("keyup", flushNumber);
 NUMERIC_KEYS.addEventListener("click", numberHandler);
 
 //event listener for enter key
-ENTER_KEY.addEventListener("click",() => {
-    OPERANDS_QUEUE.insert(getNumberFromDisplay());
-    operate();
-})
-
-
-
-
-
-//chage state of a button to pressed
-//unpress other buttons , of same type?
-function pressButton (e){
-
-    console.log(OPERANDS_QUEUE);
-
-    //add press state
-    const boton = e.target;
-    currentOperator = boton.value;
-    //insert value in operands queue
-    const numberInDisplay = Number(DISPLAY.textContent);
-    OPERANDS_QUEUE.insert(numberInDisplay);
-    
-    console.log(OPERANDS_QUEUE);
-    if(boton.classList.contains("pressed")){
-        return;
-    }
-    boton.classList.add("pressed");
-    //remove press state from other buttons
-    const otherButtons = Array.from(document.querySelectorAll(".operator"));        
-    otherButtons.splice(otherButtons.indexOf(boton),1);
-    otherButtons.forEach( (b) => {
-            b.classList.remove("pressed");
-    });    
-}
-
-
-
-
-//
-function flushNumber (e) {
-    //get number from input field
-    let inputNumber = Number(e.target.value);
-    //check buttons
-    if (isOperatorPressed()){
-        B = inputNumber;
-    } else {
-        A = inputNumber;
-    }
-
-    console.log("A : " + A);
-    console.log("B : " + B);
-};
+ENTER_KEY.addEventListener("click", operate);
 
 
 
@@ -130,7 +79,8 @@ function isOperatorPressed (){
 
 
 function operate(){
-    let result = OPERANDS_QUEUE.operate();
+    STACK.push_number(getNumberFromDisplay());
+    const result = STACK.operate()
     toDisplay(result);
 }
 
@@ -185,5 +135,27 @@ function isDisplayFull(){
 
 function toDisplay(n){
     DISPLAY.textContent = n;
+}
+
+
+
+function operatorHandler(e) {
+    //un press previous operator button pressed
+    const fomerPressed = document.querySelector(".pressed");
+    if (fomerPressed != null){
+        fomerPressed.classList.remove("pressed");
+    }
+    
+    //set current pressed state
+    const pressedOperator = e.target;
+    pressedOperator.classList.add("pressed");
+
+    //put number in display to stack
+    const aNumber = getNumberFromDisplay();
+    STACK.push_number(aNumber);
+    //put operator to stack
+    const operator =  e.target.value;
+    STACK.push_operator(operator);
+
 }
 
