@@ -56,8 +56,7 @@ operatorButtons.forEach((b) => {
     b.addEventListener("click", operatorHandler);
 })
 
-//event listener to update A or B when input numbers    
-DISPLAY.addEventListener("keyup", flushNumber);
+
 
 //event listener for numeric keys
 NUMERIC_KEYS.addEventListener("click", numberHandler);
