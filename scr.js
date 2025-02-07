@@ -50,6 +50,9 @@ const STACK = {
         this.operator_stack.push(o);
     },
     operate: function() {
+        if (this.number_stack.length < 2){
+            return null;
+        }
         let b = this.number_stack.pop();
         let a = this.number_stack.pop();
         switch (this.operator_stack.pop()) {
@@ -75,8 +78,11 @@ ENTER_KEY.addEventListener("click", performOperation);
 function performOperation() {
     STACK.push_number(Display.getValue());
     const result = STACK.operate();
-    Display.setValue(result);
-    Display.clearNext = true;
+    if (result) {
+        Display.setValue(result);
+        Display.clearNext = true;
+    }
+    
 }
 
 function numberHandler(e) {
