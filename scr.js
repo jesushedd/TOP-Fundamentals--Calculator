@@ -85,16 +85,15 @@ function numberHandler(e) {
     const numberToWrite = target.value;
     if (isOperatorPressed()) {
         document.querySelector(".pressed").classList.remove("pressed");
-        Display.clear();
-        Display.setValue(numberToWrite);
-    } else if (Display.isFull()) {
-        return;
-    } else if(Display.clearNext){
+    }
+    
+    if (Display.clearNext){
         Display.clear();
         Display.setValue(numberToWrite);
         Display.clearNext = false;
-    } 
-    else {
+    } else if (Display.isFull()) {
+        return;
+    } else {
         Display.append(numberToWrite);
     }
 }
@@ -109,6 +108,8 @@ function operatorHandler(e) {
 
     STACK.push_number(Display.getValue());
     STACK.push_operator(e.target.value);
+
+    Display.clearNext = true;
 }
 
 // Helper function
