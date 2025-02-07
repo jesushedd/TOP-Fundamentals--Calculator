@@ -60,6 +60,9 @@ const STACK = {
                 if (b === 0) return "ZeroErr";
                 return a / b;
         }
+    },
+    isFull(){
+        return this.number_stack.length >= this.max_size;
     }
 };
 
@@ -106,7 +109,16 @@ function operatorHandler(e) {
     const pressedOperator = e.target;
     pressedOperator.classList.add("pressed");
 
+
     STACK.push_number(Display.getValue());
+
+    if (STACK.isFull()){
+        let intermediateValue = STACK.operate();
+        STACK.push_number(intermediateValue);
+        Display.setValue(intermediateValue);
+    }
+
+    
     STACK.push_operator(e.target.value);
 
     Display.clearNext = true;
