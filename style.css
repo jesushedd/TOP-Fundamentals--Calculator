@@ -1,12 +1,79 @@
+/*Clases in calculator.html
+    - calculator-body
+    - display
+    - keyboard
+    - key
+    - special
+    - num
+    - operator-keys
+    - operator
+    - pressed
+* Ids in calculator.html
+    - special-keys
+    - numeric-keys
+    - sum
+    - sub
+    - mult
+    - div
+*/
+
 *{
     box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
 }
 .pressed {
     background-color: papayawhip;
 }
 .display{
+    box-sizing: content-box;
+    font-size: 7em;
     text-align: right;
     width: 8ch;
-    height: 2rem;
+    height: 1em;
     background-color: gray;
+    padding: 10px 5px;
+}
+
+.calculator-body{
+    background-color: red;
+    max-width: 70%;
+    margin: auto;
+    border: 15px solid black;
+}
+
+.keyboard{
+    display: flex;
+    
+}
+
+.key{
+    flex-grow: 1;
+    flex-basis: 33.3%;    
+}
+
+.left-keys{
+    display: flex;
+    flex-wrap: wrap;
+    
+    flex-grow: 3;
+}
+
+.operator-keys{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;    
+}
+
+
+
+#numeric-keys{
+    
 }
