@@ -35,7 +35,7 @@ const Display = {
 //operator buttons
 const operatorButtons = document.querySelectorAll(".operator");
 //numbers keys 
-const NUMERIC_KEYS = document.querySelector("#numerics");
+const NUMERIC_KEYS = document.querySelector("#num-keyboard");
 const ENTER_KEY = document.querySelector("#enter");
 
 // Stack implementation for operations
