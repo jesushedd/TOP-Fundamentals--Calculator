@@ -37,6 +37,8 @@ const operatorButtons = document.querySelectorAll(".operator");
 //numbers keys 
 const NUMERIC_KEYS = document.querySelector("#num-keyboard");
 const ENTER_KEY = document.querySelector("#enter");
+//special keys
+const SPECIAL_KEYS = document.querySelector("#special-keyboard")
 
 // Stack implementation for operations
 const STACK = {
@@ -66,6 +68,11 @@ const STACK = {
     },
     isFull(){
         return this.number_stack.length >= this.max_size;
+    },
+
+    clear(){
+        this.number_stack = [];
+        this.operator_stack = [];
     }
 };
 
@@ -73,6 +80,7 @@ const STACK = {
 operatorButtons.forEach((b) => b.addEventListener("click", operatorHandler));
 NUMERIC_KEYS.addEventListener("click", numberHandler);
 ENTER_KEY.addEventListener("click", performOperation);
+SPECIAL_KEYS.addEventListener("click", specialHandlers);
 
 // Handler functions
 function performOperation() {
@@ -128,6 +136,27 @@ function operatorHandler(e) {
     STACK.push_operator(e.target.value);
 
     Display.clearNext = true;
+}
+
+
+function specialHandlers(e){
+    const keyPreseed = e.target;
+
+    if (keyPreseed.tagName !== "BUTTON") return;
+    switch (keyPreseed.value){
+        case "clear":
+            Display.clear();
+            Display.setValue(0);
+            STACK.clear();
+            break;
+        case "sign":
+            let newVal = Display.getValue() * -1;
+            Display.setValue(newVal);
+            break;
+        case "percent":
+            Display.setValue(Display.getValue() / 100);
+            break;
+    }
 }
 
 // Helper function
