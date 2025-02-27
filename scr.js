@@ -148,6 +148,9 @@ function specialHandlers(e){
             Display.clear();
             Display.setValue(0);
             STACK.clear();
+            //un presed previous
+            const formerPressed = document.querySelector(".pressed");
+            if (formerPressed) formerPressed.classList.remove("pressed");
             break;
         case "sign":
             let newVal = Display.getValue() * -1;
