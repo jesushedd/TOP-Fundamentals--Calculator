@@ -57,6 +57,8 @@ const STACK = {
         }
         let b = this.number_stack.pop();
         let a = this.number_stack.pop();
+
+        if (this.operator_stack.length == 0) return null;
         switch (this.operator_stack.pop()) {
             case "+": return a + b;
             case "*": return a * b;
@@ -92,6 +94,7 @@ function performOperation() {
         Display.setValue(result);
         Display.clearNext = true;
     }
+    STACK.clear()
     
 }
 
