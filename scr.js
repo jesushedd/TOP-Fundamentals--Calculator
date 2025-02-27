@@ -49,7 +49,7 @@ const STACK = {
         this.number_stack.push(n);
     },
     push_operator: function(o) {
-        this.operator_stack.push(o);
+        this.operator_stack[0] = o;
     },
     operate: function() {
         if (this.number_stack.length < 2){
@@ -75,6 +75,8 @@ const STACK = {
         this.operator_stack = [];
     }
 };
+//Flag to chek is last key pressed  was number
+let wasLastNumber = false
 
 // Event listeners
 operatorButtons.forEach((b) => b.addEventListener("click", operatorHandler));
@@ -86,7 +88,7 @@ SPECIAL_KEYS.addEventListener("click", specialHandlers);
 function performOperation() {
     STACK.push_number(Display.getValue());
     const result = STACK.operate();
-    if (result) {
+    if (result !== null) {
         Display.setValue(result);
         Display.clearNext = true;
     }
@@ -109,10 +111,12 @@ function numberHandler(e) {
         Display.setValue(numberToWrite);
         Display.clearNext = false;
     } else if (Display.isFull()) {
-        return;
+        //nothing to do here xd
     } else {
         Display.append(numberToWrite);
     }
+
+    wasLastNumber = true;
 }
 
 function operatorHandler(e) {
@@ -123,19 +127,22 @@ function operatorHandler(e) {
     const pressedOperator = e.target;
     pressedOperator.classList.add("pressed");
 
+    if (wasLastNumber){
+        STACK.push_number(Display.getValue());
 
-    STACK.push_number(Display.getValue());
-
-    if (STACK.isFull()){
-        let intermediateValue = STACK.operate();
-        STACK.push_number(intermediateValue);
-        Display.setValue(intermediateValue);
+        if (STACK.isFull()){
+            let intermediateValue = STACK.operate();
+            STACK.push_number(intermediateValue);
+            Display.setValue(intermediateValue);
+        }
     }
 
     
     STACK.push_operator(e.target.value);
 
     Display.clearNext = true;
+    wasLastNumber = false;
+    
 }
 
 
